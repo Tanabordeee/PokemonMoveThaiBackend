@@ -1,23 +1,17 @@
-
-FROM eclipse-temurin:24 AS build
-
-
-ARG MAVEN_VERSION=3.9.7
-RUN apt-get update && apt-get install -y wget tar && \
-    wget https://downloads.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz && \
-    tar -xzf apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /opt && \
-    ln -s /opt/apache-maven-${MAVEN_VERSION}/bin/mvn /usr/bin/mvn
-
+FROM maven:3.8.4-openjdk-17 AS build
 
 WORKDIR /app
-COPY . .
+
+COPY pom.xml .
+RUN mvn dependency:go-offline
+
+COPY src ./src
 RUN mvn clean package -DskipTests
 
-
-FROM eclipse-temurin:24-jre
+FROM openjdk:17-jdk-slim
 
 WORKDIR /app
-COPY --from=build /app/target/pokemonmovebackend-0.0.1-SNAPSHOT.jar demo.jar
+COPY --from=build /app/target/pokemonmovebackend-0.0.1-SNAPSHOT.jar .
 
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "demo.jar"]
+ENTRYPOINT ["java", "-jar", "/app/pokemonmovebackend-0.0.1-SNAPSHOT.jar"]
