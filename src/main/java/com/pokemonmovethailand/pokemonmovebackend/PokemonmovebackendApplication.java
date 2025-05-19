@@ -1,6 +1,5 @@
 package com.pokemonmovethailand.pokemonmovebackend;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -8,11 +7,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class PokemonmovebackendApplication {
 
 	public static void main(String[] args) {
-		Dotenv dotenv = Dotenv.configure().load();
-		System.setProperty("spring.datasource.url", dotenv.get("SPRING_DATASOURCE_URL"));
-		System.setProperty("spring.datasource.username", dotenv.get("SPRING_DATASOURCE_USERNAME"));
-		System.setProperty("spring.datasource.password", dotenv.get("SPRING_DATASOURCE_PASSWORD"));
+		// อ่านจาก environment variables ของระบบโดยตรง
+		System.setProperty("spring.datasource.url", System.getenv("SPRING_DATASOURCE_URL"));
+		System.setProperty("spring.datasource.username", System.getenv("SPRING_DATASOURCE_USERNAME"));
+		System.setProperty("spring.datasource.password", System.getenv("SPRING_DATASOURCE_PASSWORD"));
+
 		SpringApplication.run(PokemonmovebackendApplication.class, args);
 	}
-
 }
