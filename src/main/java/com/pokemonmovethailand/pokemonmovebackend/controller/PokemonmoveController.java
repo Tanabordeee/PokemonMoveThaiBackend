@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://pokemonmovesthai.vercel.app")
 @RestController
 @RequestMapping("/api")
 public class PokemonmoveController {
